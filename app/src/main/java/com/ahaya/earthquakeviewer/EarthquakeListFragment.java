@@ -17,9 +17,10 @@ import java.util.List;
 
 public class EarthquakeListFragment extends Fragment {
     private ArrayList<Earthquake> mEarthquakes =
-            new ArrayList<Earthquake>();
+            new ArrayList<>();
     private RecyclerView recyclerView;
-    private EarthquakeRecyclerViewAdapter earthquakeRecyclerViewAdapter =new EarthquakeRecyclerViewAdapter(mEarthquakes);
+    private EarthquakeRecyclerViewAdapter earthquakeRecyclerViewAdapter
+            =new EarthquakeRecyclerViewAdapter(mEarthquakes);
 
     public EarthquakeListFragment(){
 

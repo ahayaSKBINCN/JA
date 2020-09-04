@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
     EarthquakeListFragment earthquakeListFragment;
