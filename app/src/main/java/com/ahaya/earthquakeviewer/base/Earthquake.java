@@ -1,4 +1,4 @@
-package com.ahaya.earthquakeviewer;
+package com.ahaya.earthquakeviewer.base;
 
 import android.location.Location;
 
@@ -72,4 +72,6 @@ public class Earthquake {
     public int hashCode() {
         return Objects.hash(mId, mDate, mDetails, mLocation, mMagnitude, mLink);
     }
+
+
 }

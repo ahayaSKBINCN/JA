@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_activity_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_activity_linear"
     android:orientation="vertical">
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/button_go_to_compass"
-    android:text="go to compass"/>
+
+    <Button
+        android:id="@+id/button_go_to_compass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_compass" />
+
+
+    <Button
+        android:id="@+id/pick_star_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_star_sign" />
+
+    <TextView
+        android:id="@+id/selected_starSign_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

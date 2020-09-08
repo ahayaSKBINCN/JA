@@ -12,7 +12,7 @@
             type="java.text.NumberFormat" />
         <variable
             name="earthquake"
-            type="com.ahaya.earthquakeviewer.Earthquake" />
+            type="com.ahaya.earthquakeviewer.base.Earthquake" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_height="wrap_content"

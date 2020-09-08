@@ -1,4 +1,5 @@
-package com.ahaya.earthquakeviewer.Sample;
+package com.ahaya.earthquakeviewer.compass;
+
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -30,6 +31,8 @@ public class CompassView extends View {
     private int textHeight;
 
     private float mBearing;
+
+
 
     public void setBearing(float bearing) {
         mBearing = bearing;
@@ -86,6 +89,8 @@ public class CompassView extends View {
 
         markerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         markerPaint.setColor(ContextCompat.getColor(context, R.color.marker_color));
+
+
 
     }
 

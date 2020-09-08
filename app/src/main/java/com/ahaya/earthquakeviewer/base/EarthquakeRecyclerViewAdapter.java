@@ -1,4 +1,4 @@
-package com.ahaya.earthquakeviewer;
+package com.ahaya.earthquakeviewer.base;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
