@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -108,21 +107,6 @@ public abstract class CustomView extends View {
         float textWidth = mTextPaint.measureText(displayText);
         canvas.drawText(displayText, px - textWidth / 2, py, mTextPaint);
     }
-
-
 }
 
-abstract class OpenGLView extends SurfaceView {
 
-    public OpenGLView(Context context) {
-        super(context);
-    }
-
-    public OpenGLView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public OpenGLView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-}
