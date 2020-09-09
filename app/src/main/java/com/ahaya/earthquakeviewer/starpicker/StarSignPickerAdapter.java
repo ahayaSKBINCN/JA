@@ -26,11 +26,9 @@ public class StarSignPickerAdapter extends RecyclerView.Adapter<StarSignPickerAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.star_sign_list_item,parent,false);
-        return new ViewHolder(view,null);
+        return new ViewHolder(view, null);
     }
     public StarSignPickerAdapter(){}
-
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
@@ -57,7 +55,7 @@ public class StarSignPickerAdapter extends RecyclerView.Adapter<StarSignPickerAd
         mAdapterItemClickListener = adpaterItemClickHandler;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         public TextView textView;
         public View.OnClickListener listener;
@@ -73,7 +71,7 @@ public class StarSignPickerAdapter extends RecyclerView.Adapter<StarSignPickerAd
 
         @Override
         public void onClick(View v) {
-            if(listener != null);
+            if(listener != null)
             listener.onClick(v);
         }
     }
