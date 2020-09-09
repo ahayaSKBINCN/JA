@@ -19,7 +19,7 @@ public class StarSignPicker extends AppCompatActivity {
         setContentView(R.layout.activity_star_sign_picker);
         StarSignPickerAdapter starSignPickerAdapter = new StarSignPickerAdapter();
         starSignPickerAdapter.setOnAdapterItemClick(
-                new StarSignPickerAdapter.IAdapterItemClick() {
+                new StarSignPickerAdapter.IAdapterItemClickListener() {
                     @Override
                     public void onItemClicked(String selectedItem) {
                         //Construct the result URI;

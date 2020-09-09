@@ -14,7 +14,12 @@ public class StarSignPickerAdapter extends RecyclerView.Adapter<StarSignPickerAd
     private String[] mStarSigns = {"Aries", "Taurus", "Gemini", "Cancer",
             "Leo", "Virgo", "Libra", "Scorpio",
             "Sagittarius", "Capricorn", "Aquarius", "Pisces"};
-    IAdapterItemClick mAdapterItemClickListener;
+
+    public interface IAdapterItemClickListener {
+        void onItemClicked(String selectedItem);
+    }
+
+    IAdapterItemClickListener mAdapterItemClickListener;
 
 
     @NonNull
@@ -44,12 +49,11 @@ public class StarSignPickerAdapter extends RecyclerView.Adapter<StarSignPickerAd
     public int getItemCount() {
         return mStarSigns == null ? 0 : mStarSigns.length;
     }
-    public interface IAdapterItemClick{
-        void onItemClicked(String selectedItem);
-    }
 
 
-    public void setOnAdapterItemClick(IAdapterItemClick adpaterItemClickHandler ){
+
+
+    public void setOnAdapterItemClick(IAdapterItemClickListener adpaterItemClickHandler ){
         mAdapterItemClickListener = adpaterItemClickHandler;
     }
 

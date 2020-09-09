@@ -1,11 +1,17 @@
 package com.ahaya.earthquakeviewer;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -104,5 +110,63 @@ public class MainActivity extends AppCompatActivity {
                textView.setText(selectedStarSign);
             }
         }
+    }
+
+    private void queryActivityList () {
+
+
+        PackageManager packageManager = getPackageManager();
+        Intent intent = new Intent();
+        intent.setType("vnd.android.cursor.item/vnd.com.professionalandroid.provider.moonbase");
+        intent.addCategory(Intent.CATEGORY_SELECTED_ALTERNATIVE);
+        int flags = PackageManager.MATCH_ALL;
+
+        List<ResolveInfo> actions;
+        actions = packageManager.queryIntentActivities(intent,flags);
+        ArrayList<CharSequence> labels = new ArrayList<>();
+        Resources r = getResources();
+        for(ResolveInfo action: actions)
+            labels.add(action.nonLocalizedLabel);
+
+
+    }
+    /*用于创建动作菜单解析Intent 的框架代码如下
+     * Intent intent = new Intent();
+     * intent.setData(MyProvider.CONTENT_URI);
+     * intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
+     * **/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        // 创建用于解析菜单中应该出现哪些操作的Intent
+        Intent intent = new Intent();
+        intent.setType(
+                "vnd.android.cursor.item/vnd.com.professionalandroid.provider.moonbase"
+        );
+        intent.addCategory(Intent.CATEGORY_SELECTED_ALTERNATIVE);
+
+        //普通菜单选项，用于为要添加的菜单项设置组和id值；
+        int menuGroup = 0;
+        int menuItenId = 0;
+        int menuItenOrder = Menu.NONE;
+
+        //提供调用操作的组件名--通常是当前的Activity
+        ComponentName caller = getComponentName();
+        //定义应首先添加的Intent；
+        Intent[] specificIntentItems = null;
+        //使用先前Intent中创建的菜单选项填充这个数组；
+        MenuItem[] outSpecificItems = null;
+        //设置任何一个可选的标记；
+        int flags = Menu.FLAG_APPEND_TO_GROUP;
+        //填充菜单
+        menu.addIntentOptions(menuGroup,
+                menuItenId,
+                menuItenOrder,
+                caller,
+                specificIntentItems,
+                intent,
+                flags,
+                outSpecificItems);
+        return true;
     }
 }
