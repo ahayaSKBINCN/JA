@@ -6,4 +6,7 @@
     <string name="cardinal_west">W</string>
     <string name="pick_star_sign">Pick Star Sign</string>
     <string name="go_to_compass">GO TO COMPASS</string>
+    <string name="earthquake_feed">
+        https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.atom
+    </string>
 </resources>

@@ -2,6 +2,7 @@ package com.ahaya.earthquakeviewer.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +27,8 @@ public class EarthquakeListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EarthquakeRecyclerViewAdapter earthquakeRecyclerViewAdapter
             =new EarthquakeRecyclerViewAdapter(mEarthquakes);
+
+//    private EarthquakeModel  model;
 
     public EarthquakeListFragment(){
 
@@ -42,6 +48,22 @@ public class EarthquakeListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        model = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+//            @NonNull
+//            @Override
+//            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+//                try {
+//                    return modelClass.newInstance();
+//                } catch (IllegalAccessException e) {
+//                    Log.e("","IllegalAccessException",e);
+//                } catch (java.lang.InstantiationException e) {
+//                    Log.e("","InstantiationException",e);
+//                }
+//                return null;
+//            }
+//        }).get(EarthquakeModel.class);
+
+
     }
 
     @Nullable

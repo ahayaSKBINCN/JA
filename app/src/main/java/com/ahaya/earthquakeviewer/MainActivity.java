@@ -16,16 +16,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.ahaya.earthquakeviewer.base.Earthquake;
 import com.ahaya.earthquakeviewer.base.EarthquakeListFragment;
+import com.ahaya.earthquakeviewer.base.EarthquakeModel;
 import com.ahaya.earthquakeviewer.compass.CompassActivity;
 import com.ahaya.earthquakeviewer.starpicker.StarSignPicker;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Button linkToCompass;
     Button linkToStarSignPicker;
     TextView textView;
+    EarthquakeModel earthquakeModel
 
 
 
@@ -48,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
 
+        //Android 会在配置更改后，自动重新添加之间添加过的任何Fragment
+        //因此，只有在自动重启时才添加它
         if (savedInstanceState == null) {
             FragmentTransaction ft = fm.beginTransaction();
             earthquakeListFragment = new EarthquakeListFragment();
@@ -56,18 +69,51 @@ public class MainActivity extends AppCompatActivity {
         } else {
             earthquakeListFragment = (EarthquakeListFragment) fm.findFragmentByTag(TAG_LIST_FRAGMENT);
         }
+
         //TODO 暂时使用模拟数据
-        Date now = Calendar.getInstance().getTime();
         linkToCompass = findViewById(R.id.button_go_to_compass);
         LinkToCompass(this, linkToCompass);
         linkToStarSignPicker = findViewById(R.id.pick_star_btn);
         LinkToStarPicker(linkToStarSignPicker);
         textView = findViewById(R.id.selected_starSign_textView);
 
-        List<Earthquake> dummyQuakes = new ArrayList<>(0);
-        dummyQuakes.add(new Earthquake("0", now, "San Jose", null, 7.3, null));
-        dummyQuakes.add(new Earthquake("1", now, "LA", null, 6.5, null));
-        earthquakeListFragment.setEarthquakes(dummyQuakes);
+
+        earthquakeModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                try {
+                    return modelClass.newInstance();
+                } catch (IllegalAccessException e) {
+                    Log.e("MAIN","IllegalAccessException",e);
+                } catch (InstantiationException e) {
+                    Log.e("MAIN","InstantiationException",e);
+                }
+                return null;
+            }
+        }).get(EarthquakeModel.class);
+
+
+
+        // 网络请求
+//        try {
+//            URL url = new URL(myFeed);
+//            URLConnection connection = url.openConnection();
+//            HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+//            int responseCode =httpURLConnection.getResponseCode();
+//            if(responseCode == HttpURLConnection.HTTP_OK){
+//                InputStream inputStream = httpURLConnection.getInputStream();
+//                processStream(inputStream);
+//            }
+//            httpURLConnection.disconnect();
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 
 
@@ -169,4 +215,27 @@ public class MainActivity extends AppCompatActivity {
                 outSpecificItems);
         return true;
     }
+
+//    public Thread createNewThread () {
+//        return new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                //Perform Network operations and processing;
+//                final MyDataClass result = loadInBackground();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        deliverResult(result);
+//                    }
+//                });
+//            }
+//        });
+//    }
+
+    /**
+     * public void createAsyncTask (){
+     * String input = "redrum...redrum";
+     * new LAsyncTask().execute(input);
+     * }
+     */
 }
