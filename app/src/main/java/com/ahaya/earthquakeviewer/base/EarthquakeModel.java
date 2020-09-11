@@ -46,6 +46,7 @@ public class EarthquakeModel extends AndroidViewModel {
     private MutableLiveData<List<Earthquake>> earthquakes;
 
     public EarthquakeModel(@NonNull Application application) {
+
         super(application);
     }
 
@@ -97,7 +98,7 @@ public class EarthquakeModel extends AndroidViewModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void loadData() {
+    public void loadData() {
         new AsyncTask<Void, Void, List<Earthquake>>() {
 
             @Override
@@ -141,6 +142,8 @@ public class EarthquakeModel extends AndroidViewModel {
                                 String linkString = hostname + link.getAttribute("href");
                                 String point = g.getFirstChild().getNodeValue();
                                 String dt = when.getFirstChild().getNodeValue();
+
+                                @SuppressLint("SimpleDateFormat")
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
                                 Date qdate = new GregorianCalendar(0,0,0).getTime();
 
@@ -189,7 +192,12 @@ public class EarthquakeModel extends AndroidViewModel {
 
             @Override
             protected void onPostExecute(List<Earthquake> data) {
-                earthquakes.setValue(data);
+                try{
+                    earthquakes.setValue(data);
+                }catch (NullPointerException e){
+                    Log.e("NullPointerException","LiveData is null",e);
+                    return;
+                }
             }
         }.execute();
     }

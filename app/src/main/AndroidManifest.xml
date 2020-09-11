@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ahaya.earthquakeviewer"
-    android:version-code="1">
+    >
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +25,12 @@
                 <data android:scheme="starsigns"/>
             </intent-filter>
         </activity>
-
+        <receiver android:name=".Sample.DownloadsReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
+
 </manifest>

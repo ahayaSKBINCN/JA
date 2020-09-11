@@ -1,6 +1,7 @@
 package com.ahaya.earthquakeviewer;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -41,14 +42,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EarthquakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
     private static final int PICK_STARSIGN = 1;
     EarthquakeListFragment earthquakeListFragment;
     Button linkToCompass;
     Button linkToStarSignPicker;
     TextView textView;
-    EarthquakeModel earthquakeModel
+
+    EarthquakeModel earthquakeModel;
+
+
 
 
 
@@ -77,41 +81,7 @@ public class MainActivity extends AppCompatActivity {
         LinkToStarPicker(linkToStarSignPicker);
         textView = findViewById(R.id.selected_starSign_textView);
 
-
-        earthquakeModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                try {
-                    return modelClass.newInstance();
-                } catch (IllegalAccessException e) {
-                    Log.e("MAIN","IllegalAccessException",e);
-                } catch (InstantiationException e) {
-                    Log.e("MAIN","InstantiationException",e);
-                }
-                return null;
-            }
-        }).get(EarthquakeModel.class);
-
-
-
-        // 网络请求
-//        try {
-//            URL url = new URL(myFeed);
-//            URLConnection connection = url.openConnection();
-//            HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
-//            int responseCode =httpURLConnection.getResponseCode();
-//            if(responseCode == HttpURLConnection.HTTP_OK){
-//                InputStream inputStream = httpURLConnection.getInputStream();
-//                processStream(inputStream);
-//            }
-//            httpURLConnection.disconnect();
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        earthquakeModel = new ViewModelProvider(this,new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(EarthquakeModel.class);
 
 
     }
@@ -181,6 +151,12 @@ public class MainActivity extends AppCompatActivity {
      * intent.setData(MyProvider.CONTENT_URI);
      * intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
      * **/
+
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -216,7 +192,24 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    public Thread createNewThread () {
+    @Override
+    public void onListFragmentRefreshRequested() {
+        updateEarthquakes();
+    }
+
+    private void updateEarthquakes(){
+        earthquakeModel.loadData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        earthquakeModel.loadData();
+    }
+
+
+
+    //    public Thread createNewThread () {
 //        return new Thread(new Runnable() {
 //            @Override
 //            public void run() {
