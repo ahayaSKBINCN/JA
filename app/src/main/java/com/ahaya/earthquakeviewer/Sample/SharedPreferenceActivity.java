@@ -1,4 +1,4 @@
-package com.ahaya.earthquakeviewer.base;
+package com.ahaya.earthquakeviewer.Sample;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +18,6 @@ public class SharedPreferenceActivity extends AppCompatActivity implements Share
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
         SharedPreferences.Editor editor = preferences.edit();

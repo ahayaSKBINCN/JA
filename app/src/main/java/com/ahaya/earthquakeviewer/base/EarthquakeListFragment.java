@@ -32,7 +32,7 @@ public class EarthquakeListFragment extends Fragment {
             new ArrayList<>();
     private RecyclerView recyclerView;
     private EarthquakeRecyclerViewAdapter earthquakeRecyclerViewAdapter
-            =new EarthquakeRecyclerViewAdapter(mEarthquakes);
+            = new EarthquakeRecyclerViewAdapter(mEarthquakes);
 
     private EarthquakeModel earthquakeModel;
     private SwipeRefreshLayout refreshLayout;
@@ -41,32 +41,34 @@ public class EarthquakeListFragment extends Fragment {
 
 //    private EarthquakeModel  model;
 
-    public EarthquakeListFragment(){
+    public EarthquakeListFragment() {
 
     }
 
-    private void updateFromPreference (){
+
+    private void updateFromPreference() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         minimumMagnitude = Integer.parseInt(
                 Objects.requireNonNull(preferences.getString(PreferencesActivity.PREF_MIN_MAG, "3"))
         );
 
     }
-    public void setEarthquakes(List<Earthquake> earthquakes){
+
+    public void setEarthquakes(List<Earthquake> earthquakes) {
         updateFromPreference();
-        for(Earthquake earthquake: earthquakes){
-            if(earthquake.getMagnitude()>= minimumMagnitude){
-            if(!this.mEarthquakes.contains(earthquake)){
-                //插入数据
-                mEarthquakes.add(earthquake);
-                //向recyclerview 发出通知
-                earthquakeRecyclerViewAdapter.notifyItemInserted(mEarthquakes.indexOf(earthquake));
-            }
+        for (Earthquake earthquake : earthquakes) {
+            if (earthquake.getMagnitude() >= minimumMagnitude) {
+                if (!this.mEarthquakes.contains(earthquake)) {
+                    //插入数据
+                    mEarthquakes.add(earthquake);
+                    //向recyclerview 发出通知
+                    earthquakeRecyclerViewAdapter.notifyItemInserted(mEarthquakes.indexOf(earthquake));
+                }
             }
         }
-        if(mEarthquakes!=null&& earthquakes.size() > 0){
-            for (int i = mEarthquakes.size()-1; i >=0 ; i--) {
-                if(mEarthquakes.get(i).getMagnitude()<minimumMagnitude){
+        if (mEarthquakes != null && earthquakes.size() > 0) {
+            for (int i = mEarthquakes.size() - 1; i >= 0; i--) {
+                if (mEarthquakes.get(i).getMagnitude() < minimumMagnitude) {
                     mEarthquakes.remove(i);
                     earthquakeRecyclerViewAdapter.notifyItemRemoved(i);
                 }
@@ -75,7 +77,7 @@ public class EarthquakeListFragment extends Fragment {
         refreshLayout.setRefreshing(false);
     }
 
-    public interface OnListFragmentInteractionListener{
+    public interface OnListFragmentInteractionListener {
         void onListFragmentRefreshRequested();
     }
 
@@ -124,7 +126,7 @@ public class EarthquakeListFragment extends Fragment {
     }
 
     protected void updateEarthquakes() {
-        if(mListener != null){
+        if (mListener != null) {
             mListener.onListFragmentRefreshRequested();
         }
     }
@@ -135,14 +137,28 @@ public class EarthquakeListFragment extends Fragment {
 //        final String TAG = "ONACTIVITYCREATED_EARTHQUAKE_FRAGMENT";
 
 
-        earthquakeModel = new ViewModelProvider(this, AndroidViewModelFactory.getInstance((Application) requireContext().getApplicationContext() )).get(EarthquakeModel.class);
+        earthquakeModel = new ViewModelProvider(this, AndroidViewModelFactory.getInstance((Application) requireContext().getApplicationContext())).get(EarthquakeModel.class);
         earthquakeModel.getEarthquakes()
                 .observe(getViewLifecycleOwner(), new Observer<List<Earthquake>>() {
                     @Override
                     public void onChanged(List<Earthquake> earthquakes) {
-                        if(earthquakes !=null)
+                        if (earthquakes != null)
                             setEarthquakes(earthquakes);
                     }
                 });
+        //注册 prefs-listener
+        SharedPreferences prefs =PreferenceManager.getDefaultSharedPreferences(getContext());
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+
     }
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (PreferencesActivity.PREF_MIN_MAG.equals(key)) {
+                List<Earthquake> earthquakes = earthquakeModel.getEarthquakes().getValue();
+                if (earthquakes != null) setEarthquakes(earthquakes);
+            }
+        }
+    };
 }
