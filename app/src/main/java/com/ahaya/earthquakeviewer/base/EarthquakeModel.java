@@ -192,11 +192,8 @@ public class EarthquakeModel extends AndroidViewModel {
 
             @Override
             protected void onPostExecute(List<Earthquake> data) {
-                try{
+                if(earthquakes!=null){
                     earthquakes.setValue(data);
-                }catch (NullPointerException e){
-                    Log.e("NullPointerException","LiveData is null",e);
-                    return;
                 }
             }
         }.execute();

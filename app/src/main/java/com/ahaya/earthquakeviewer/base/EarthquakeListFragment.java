@@ -2,6 +2,7 @@ package com.ahaya.earthquakeviewer.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ahaya.earthquakeviewer.R;
+import com.ahaya.earthquakeviewer.preferences.PreferencesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static androidx.lifecycle.ViewModelProvider.*;
 
@@ -32,19 +36,40 @@ public class EarthquakeListFragment extends Fragment {
 
     private EarthquakeModel earthquakeModel;
     private SwipeRefreshLayout refreshLayout;
+    private int minimumMagnitude = 0;
+
 
 //    private EarthquakeModel  model;
 
     public EarthquakeListFragment(){
 
     }
+
+    private void updateFromPreference (){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        minimumMagnitude = Integer.parseInt(
+                Objects.requireNonNull(preferences.getString(PreferencesActivity.PREF_MIN_MAG, "3"))
+        );
+
+    }
     public void setEarthquakes(List<Earthquake> earthquakes){
+        updateFromPreference();
         for(Earthquake earthquake: earthquakes){
+            if(earthquake.getMagnitude()>= minimumMagnitude){
             if(!this.mEarthquakes.contains(earthquake)){
                 //插入数据
                 mEarthquakes.add(earthquake);
                 //向recyclerview 发出通知
                 earthquakeRecyclerViewAdapter.notifyItemInserted(mEarthquakes.indexOf(earthquake));
+            }
+            }
+        }
+        if(mEarthquakes!=null&& earthquakes.size() > 0){
+            for (int i = mEarthquakes.size()-1; i >=0 ; i--) {
+                if(mEarthquakes.get(i).getMagnitude()<minimumMagnitude){
+                    mEarthquakes.remove(i);
+                    earthquakeRecyclerViewAdapter.notifyItemRemoved(i);
+                }
             }
         }
         refreshLayout.setRefreshing(false);
@@ -71,6 +96,7 @@ public class EarthquakeListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -106,12 +132,12 @@ public class EarthquakeListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final String TAG = "ONACTIVITYCREATED_EARTHQUAKE_FRAGMENT";
+//        final String TAG = "ONACTIVITYCREATED_EARTHQUAKE_FRAGMENT";
 
 
-        earthquakeModel = new ViewModelProvider(this, AndroidViewModelFactory.getInstance((Application) getContext().getApplicationContext() )).get(EarthquakeModel.class);
+        earthquakeModel = new ViewModelProvider(this, AndroidViewModelFactory.getInstance((Application) requireContext().getApplicationContext() )).get(EarthquakeModel.class);
         earthquakeModel.getEarthquakes()
-                .observe(this, new Observer<List<Earthquake>>() {
+                .observe(getViewLifecycleOwner(), new Observer<List<Earthquake>>() {
                     @Override
                     public void onChanged(List<Earthquake> earthquakes) {
                         if(earthquakes !=null)

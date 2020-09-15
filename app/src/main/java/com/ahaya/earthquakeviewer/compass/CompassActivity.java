@@ -42,13 +42,6 @@ public class CompassActivity extends AppCompatActivity {
         };
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(sensorEventListener, sensor,SensorManager.SENSOR_DELAY_GAME);
-
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        Uri data = intent.getData();
-        Bundle extra = intent.getExtras();
-        Log.println(Log.ERROR,"Intent info","action: " +action+", data: "+String.valueOf(data)+", extra: "+String.valueOf(extra)+ ";");
-
     }
 
     @Override
