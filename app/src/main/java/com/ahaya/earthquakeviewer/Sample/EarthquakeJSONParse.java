@@ -3,7 +3,7 @@ package com.ahaya.earthquakeviewer.Sample;
 import android.location.Location;
 import android.util.JsonReader;
 
-import com.ahaya.earthquakeviewer.base.Earthquake;
+import com.ahaya.earthquakeviewer.entity.Earthquake;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,11 +73,11 @@ public class EarthquakeJSONParse {
         reader.endObject();
         if(earthquakeProperties != null){
         return new Earthquake(id,
-                earthquakeProperties.getDate(),
-                earthquakeProperties.getDetails(),
+                earthquakeProperties.getMDate(),
+                earthquakeProperties.getMDetails(),
                 location,
-                earthquakeProperties.getMagnitude(),
-                earthquakeProperties.getLink());
+                earthquakeProperties.getMMagnitude(),
+                earthquakeProperties.getMLink());
         }
         return null;
 
@@ -126,7 +126,7 @@ public class EarthquakeJSONParse {
         return location;
     }
     private static List<Double> readDoublesArray(JsonReader reader) throws IOException {
-        List<Double> doubles = new ArrayList<Double>();
+        List<Double> doubles = new ArrayList<>();
         reader.beginArray();
         while(reader.hasNext()){
             doubles.add(reader.nextDouble());

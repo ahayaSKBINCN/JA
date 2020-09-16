@@ -10,9 +10,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.ahaya.earthquakeviewer.R;
+import com.ahaya.earthquakeviewer.database.EarthquakeDatabaseAccessor;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,22 +37,31 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import com.ahaya.earthquakeviewer.entity.Earthquake;
 
 public class EarthquakeModel extends AndroidViewModel {
 
 
 
     private static final String TAG = "EarthquakeUpdate";
-    private MutableLiveData<List<Earthquake>> earthquakes;
+    private LiveData<List<Earthquake>> earthquakes;
 
     public EarthquakeModel(@NonNull Application application) {
 
         super(application);
     }
 
+    public void setEarthquakes(LiveData<List<Earthquake>> earthquakes) {
+        this.earthquakes = earthquakes;
+    }
+
     public LiveData<List<Earthquake>> getEarthquakes() {
         if (null == earthquakes) {
-            earthquakes = new MutableLiveData<>();
+            earthquakes =(LiveData<List<Earthquake>>) EarthquakeDatabaseAccessor
+                    .getInstance(getApplication())
+                    .earthquakeDao()
+                    .loadAllEarthquakes();
+            //load from remote;
             loadData();
         }
         return earthquakes;
@@ -165,7 +174,7 @@ public class EarthquakeModel extends AndroidViewModel {
                                     details= details.split("-")[1].trim();
                                 }else details = "";
 
-                                final Earthquake eathquakes = new Earthquake(
+                                final Earthquake earthquake = new Earthquake(
                                         idString,
                                         qdate,
                                         details,
@@ -173,7 +182,7 @@ public class EarthquakeModel extends AndroidViewModel {
                                         magnitude,
                                         linkString
                                 );
-                                earthquakes.add(eathquakes);
+                                earthquakes.add(earthquake);
                             }
                         }
                     }
@@ -187,14 +196,18 @@ public class EarthquakeModel extends AndroidViewModel {
                 } catch (SAXException e) {
                     Log.e(TAG,"SAXException",e);
                 }
+
+                EarthquakeDatabaseAccessor
+                        .getInstance(getApplication())
+                        .earthquakeDao()
+                        .insertEarthquakes(earthquakes);
                 return earthquakes;
             }
 
             @Override
             protected void onPostExecute(List<Earthquake> data) {
-                if(earthquakes!=null){
-                    earthquakes.setValue(data);
-                }
+                   super.onPostExecute(data);
+
             }
         }.execute();
     }

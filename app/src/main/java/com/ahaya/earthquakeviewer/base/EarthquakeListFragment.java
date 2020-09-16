@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ahaya.earthquakeviewer.R;
+import com.ahaya.earthquakeviewer.entity.Earthquake;
 import com.ahaya.earthquakeviewer.preferences.PreferencesActivity;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class EarthquakeListFragment extends Fragment {
     public void setEarthquakes(List<Earthquake> earthquakes) {
         updateFromPreference();
         for (Earthquake earthquake : earthquakes) {
-            if (earthquake.getMagnitude() >= minimumMagnitude) {
+            if (earthquake.getMMagnitude() >= minimumMagnitude) {
                 if (!this.mEarthquakes.contains(earthquake)) {
                     //插入数据
                     mEarthquakes.add(earthquake);
@@ -68,7 +69,7 @@ public class EarthquakeListFragment extends Fragment {
         }
         if (mEarthquakes != null && earthquakes.size() > 0) {
             for (int i = mEarthquakes.size() - 1; i >= 0; i--) {
-                if (mEarthquakes.get(i).getMagnitude() < minimumMagnitude) {
+                if (mEarthquakes.get(i).getMMagnitude() < minimumMagnitude) {
                     mEarthquakes.remove(i);
                     earthquakeRecyclerViewAdapter.notifyItemRemoved(i);
                 }

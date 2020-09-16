@@ -14,7 +14,7 @@ import com.ahaya.earthquakeviewer.entity.User;
  * @Useage
  * AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"database-name").build();
  */
-@Database(entities = {Earthquake.class, User.class}, version = 1)
+@Database(entities = {Earthquake.class, User.class}, version = 1,exportSchema = false)
 @TypeConverters({EarthquakeTypeConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract com.ahaya.earthquakeviewer.dao.EarthquakeDao earthquakeDao();

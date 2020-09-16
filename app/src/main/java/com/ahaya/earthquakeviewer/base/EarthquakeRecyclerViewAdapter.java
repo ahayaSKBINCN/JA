@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahaya.earthquakeviewer.databinding.ListItemEarthquakeBinding;
+import com.ahaya.earthquakeviewer.entity.Earthquake;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
