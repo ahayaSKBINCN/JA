@@ -1,4 +1,4 @@
-package com.ahaya.earthquakeviewer.Sample;
+package com.ahaya.earthquakeviewer.sample;
 
 import android.location.Location;
 import android.util.JsonReader;

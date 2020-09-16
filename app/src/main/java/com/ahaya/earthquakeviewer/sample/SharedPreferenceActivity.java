@@ -1,6 +1,5 @@
-package com.ahaya.earthquakeviewer.Sample;
+package com.ahaya.earthquakeviewer.sample;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;

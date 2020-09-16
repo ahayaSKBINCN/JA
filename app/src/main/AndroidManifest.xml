@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <receiver android:name=".Sample.DownloadsReceiver">
+        <receiver android:name=".sample.DownloadsReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
