@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
  *     db = hoardDBOpenHelper.getReadableDatabase();
  * }
  */
+
 public class HoardDBOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "myDatabase.db";
     public static final String DATABASE_TABLE = "GoldHoards";

@@ -5,6 +5,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.ahaya.earthquakeviewer.dao.EarthquakeDao;
 import com.ahaya.earthquakeviewer.dao.UserDao;
 import com.ahaya.earthquakeviewer.entity.Earthquake;
 import com.ahaya.earthquakeviewer.entity.EarthquakeTypeConverters;
@@ -17,6 +18,6 @@ import com.ahaya.earthquakeviewer.entity.User;
 @Database(entities = {Earthquake.class, User.class}, version = 1,exportSchema = false)
 @TypeConverters({EarthquakeTypeConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract com.ahaya.earthquakeviewer.dao.EarthquakeDao earthquakeDao();
+    public abstract EarthquakeDao earthquakeDao();
     public abstract UserDao userDao();
 }

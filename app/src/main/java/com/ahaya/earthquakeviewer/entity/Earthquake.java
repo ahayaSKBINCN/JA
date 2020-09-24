@@ -1,5 +1,6 @@
 package com.ahaya.earthquakeviewer.entity;
 
+import android.content.ContentValues;
 import android.location.Location;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -45,6 +47,8 @@ public class Earthquake {
         mDetails = details;
         mLocation =location;
         mLink = link;
+    }
+    private Earthquake(){
 
     }
     @NonNull
@@ -67,6 +71,26 @@ public class Earthquake {
         return mLink;
     }
 
+    public static Earthquake fromContentValue (ContentValues contentValues) {
+        Earthquake earthquake = new Earthquake();
+        if(contentValues.containsKey("id")){
+            earthquake.id = contentValues.getAsString("id");
+        }
+        if(contentValues.containsKey("date")){
+            earthquake.mDate = (Date) contentValues.get("date");
+        }
+        if(contentValues.containsKey("details")){
+            earthquake.mDetails = contentValues.getAsString("details");
+        }
+        if(contentValues.containsKey("location")){
+            earthquake.mLocation =(Location) contentValues.get("location");
+        }
+        if(contentValues.containsKey("link")){
+            earthquake.mLink = contentValues.getAsString("link");
+        }
+        return earthquake;
+    }
+
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
@@ -85,4 +109,5 @@ public class Earthquake {
     public int hashCode() {
         return Objects.hash(id, mDate, mDetails, mLocation, mMagnitude, mLink);
     }
+
 }

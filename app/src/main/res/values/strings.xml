@@ -14,4 +14,5 @@
     <string name="update_freq_prompt">Refresh Frequency</string>
     <string name="min_quake_mag_prompt">Minimum Quake Magnitude</string>
     <string name="menu_setting">Setting</string>
+    <string name="provider_authorized">com.ahaya.provider.JA</string>
 </resources>

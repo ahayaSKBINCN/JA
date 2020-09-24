@@ -1,42 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ahaya.earthquakeviewer"
-    >
-    <uses-permission android:name="android.permission.INTERNET"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ahaya.earthquakeviewer">
+
     <application
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:fullBackupContent="@xml/backup_descriptor"
-        android:theme="@style/AppTheme"
-        android:allowBackup="true">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".compass.CompassActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".starpicker.StarSignPicker" android:screenOrientation="portrait">
+        <activity
+            android:name=".compass.CompassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".starpicker.StarSignPicker"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="starsigns"/>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="starsigns" />
             </intent-filter>
         </activity>
-        <activity android:name=".preferences.PreferencesActivity" android:screenOrientation="portrait">
+        <activity
+            android:name=".preferences.PreferencesActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".sample.HoardContentProvider"
+            android:authorities="com.ahaya.provider.JA"
+            android:grantUriPermissions="true"
+            android:exported="false" />
+        <provider
+            android:authorities="com.ahaya.provider.earthquake_provider"
+            android:name=".provider.EarthquakeProvider"
+            android:exported="true"/>
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/filepaths"
+            />
         <receiver android:name=".sample.DownloadsReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
     </application>
+
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:ignore="ManifestOrder" />
+
+    <uses-permission
+        android:name="android.permission.READ_USER_DICTIONARY"
+        tools:ignore="ManifestOrder" />
+    <uses-permission
+        android:name="android.permission.WRITE_USER_DICTIONARY"
+        tools:ignore="ManifestOrder" />
+
 
 </manifest>
